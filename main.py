@@ -1,3 +1,5 @@
+from Chair import Chair, HardChair
 
 if __name__ == '__main__':
-    print("HELLO")
+    abc = HardChair("afa")
+    print(abc._state)
