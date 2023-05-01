@@ -1,8 +1,8 @@
-from Enum.GenderEnum import GenderState
+from abc import ABC, abstractmethod
 from Contact.PhoneNumber import PhoneNumber
-from Interface.UserInterface import PersonInterface
+from Enum.GenderEnum import GenderState
 
-class User(PersonInterface):
+class Person(ABC):
     def __init__(self, email: str, fullname: str, code: str, telephoneNumber: str, gender: GenderState) -> None:
         self.__email = email
         self.__fullname = fullname
@@ -10,11 +10,6 @@ class User(PersonInterface):
         self.__telephoneNumber = PhoneNumber(telephoneNumber)
         self.__gender = gender
 
-    def __cancel_ticket(self, code: int):
-        pass 
-
-    def _set_ticket(self):
-        pass 
-
-    def __payment(self):
-        pass 
+    @abstractmethod
+    def displayPersonInformation(self):
+        pass
