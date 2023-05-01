@@ -1,5 +1,5 @@
 from Enum.ChairEnum import ChairState, ChairType
-from Interface.Person import Person
+from Interface.PersonInterface import Person
 
 class Chair():
     def __init__(self) -> None:

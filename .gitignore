@@ -1,2 +1,9 @@
-_pycache_
-Enum/_pycache_
+.vscode/
+__pycache__/
+Contact/__pycache__/
+Enum/__pycache__/
+GasStation/__pycache__/
+GasStation/Train/__pycache__/
+GasStation/Train/Wagon/__pycache__/
+GasStation/PersonObject/__pycache__/
+Interface/__pycache__/
