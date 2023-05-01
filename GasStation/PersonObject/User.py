@@ -1,6 +1,6 @@
 from Enum.GenderEnum import GenderState
 from Contact.PhoneNumber import PhoneNumber
-from Interface.PersonInterface import Person
+from Interface.Person import Person
 
 class User(Person):
     def __init__(self, email: str, fullname: str, code: str, telephoneNumber: str, gender: GenderState) -> None:

@@ -40,6 +40,7 @@ CREATE TABLE chair (
     FOREIGN KEY(user_id) REFERENCES user(user_id),
     FOREIGN KEY(wagon_id) REFERENCES wagon(wagon_id)
 );
+ALTER TABLE chair ADD COLUMN chair_type VARCHAR(10);
 
 CREATE TABLE wagon(
 	wagon_id INT NOT NULL AUTO_INCREMENT,
@@ -119,13 +120,14 @@ INSERT INTO wagon(train_id, width, height, length, wagon_type) VALUES (1, 20.0, 
                                                     (2, 5, 5, 5, "cargo"),
                                                     (2, 5, 5, 5, "cargo");
                                                     
-INSERT INTO chair(wagon_id, user_id, state) VALUES(1, 1, "active"),
-												(1, 2, "active"),
-                                                (1, 3, "active"),
-                                                (1, 4, "active"),
-                                                (1, 0, "waiting"),
-                                                (1, 0, "waiting"),
-                                                (1, 0, "unactive"),
-                                                (1, 0, "unactive"),
-                                                (1, 0, "unactive");
-ALTER TABLE chair DROP FOREIGN KEY chair_ibfk_1;
+INSERT INTO chair(wagon_id, user_id, state, chair_type) VALUES
+												(1, 1, "active", "hard"),
+												(1, 2, "active", "soft"),
+                                                (1, 3, "active","room"),
+                                                (1, 4, "active", "hard"),
+                                                (1, 0, "waiting", "hard"),
+                                                (1, 0, "waiting", "soft"),
+                                                (1, 0, "unactive", "soft"),
+                                                (1, 0, "unactive", "soft"),
+                                                (1, 0, "unactive","room");	
+                                                

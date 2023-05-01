@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 from GasStation.Train.Wagon.Chair import HardChair
 from GasStation.User.User import User 
 from Enum.GenderEnum import GenderState
 from GasStation.Train.Wagon.Wagon import FirstHead
+=======
+from Train.Chair import Chair, HardChair
+>>>>>>> origin/wagon-and-train-branch
 
 if __name__ == '__main__':
     # abc = HardChair("afa")
