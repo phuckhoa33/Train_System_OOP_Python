@@ -10,4 +10,5 @@ if __name__ == '__main__':
     # print(a.display())
     db = MysqlDatabaseConnection()
     db.connect()
-    db.query_have_return("select * from train")
+    a = db.query_have_return("select * from train")
+    print(a)

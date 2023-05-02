@@ -20,11 +20,9 @@ class MysqlDatabaseConnection(DatabaseConnection):
     
     def query_have_return(self, query):
         self.__cursor.execute(query)
-        data_list = {}
-        for (train_id, train_name) in self.__cursor:
-            data_list.append((train_id, train_name))
-        print(data_list)
-
+        data_list = []
+        for i in self.__cursor:
+            data_list.append(i)
 
         return data_list
     def query_have_not_return(self, query: str):
