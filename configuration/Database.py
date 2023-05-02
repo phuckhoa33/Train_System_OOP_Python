@@ -20,10 +20,16 @@ class MysqlDatabaseConnection(DatabaseConnection):
     
     def query_have_return(self, query):
         self.__cursor.execute(query)
-        data_list = []
-        for i in self.__cursor:
-            data_list.append(i)
+        rows = self.__cursor.fetchall()
+        columns = [desc[0] for desc in self.__cursor.description]
+        result = []
+        for row in rows:
+            d = {}
+            for i, column in enumerate(columns):
+                d[column] = row[i]
+            result.append(d)
 
-        return data_list
+        return result
+
     def query_have_not_return(self, query: str):
         self.__cursor.execute(query)

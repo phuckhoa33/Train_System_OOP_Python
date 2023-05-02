@@ -5,11 +5,11 @@ class Chair():
     def __init__(self) -> None:
         raise NotImplementedError("Cannot instantiate this class")
     
-    def initiate_information(self, __code: str, type: ChairType, wagon_id: str):
+    def initiate_information(self, __code: str, type: ChairType, wagon_id: str, state: str):
         self.__code = __code 
         self.__wagon_id = wagon_id
         self.__owner = None
-        self.__state = None 
+        self.__state = state
         self.__update_type(type)
 
     def set_ownership(self, owner: Person) -> None:
@@ -28,13 +28,13 @@ class Chair():
                 f"Wagon: {self.__wagon_id}\nChairType: {self.__type}\nChairCode: {self.__code}\nState: {self.__state}"
 
 class HardChair(Chair):
-    def __init__(self, code: str) -> None:
-        self.initiate_information(code, ChairType.HARD)
+    def __init__(self, code: str, wagon_id: int, state: str) -> None:
+        self.initiate_information(code, ChairType.HARD, wagon_id, state)
 
 class SoftChair(Chair):
-    def __init__(self, code: str) -> None:
-        self.initiate_information(code, ChairType.SOFT)
+    def __init__(self, code: str, wagon_id: int, state: str) -> None:
+        self.initiate_information(code, ChairType.SOFT, wagon_id, state)
 
 class Room(Chair):
-    def __init__(self, code: str) -> None:
-        self.initiate_information(code, ChairType.ROOM)
+    def __init__(self, code: str, wagon_id: int, state: str) -> None:
+        self.initiate_information(code, ChairType.ROOM, wagon_id, state)
