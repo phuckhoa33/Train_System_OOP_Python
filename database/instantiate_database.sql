@@ -61,6 +61,8 @@ CREATE TABLE train(
 
 ALTER TABLE train ADD COLUMN train_name VARCHAR(10);
 
+select * from train;	
+
 CREATE TABLE staff (
 	staff_id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(50),
@@ -131,3 +133,4 @@ INSERT INTO chair(wagon_id, user_id, state, chair_type) VALUES
                                                 (1, 0, "unactive", "soft"),
                                                 (1, 0, "unactive","room");	
                                                 
+SELECT * FROM wagon WHERE wagon_type = passenger;

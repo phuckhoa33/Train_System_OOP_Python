@@ -18,9 +18,9 @@ class User(Person):
     def displayPersonInformation(self):
         return  "--------------------------------------------------------------------------------\n"\
                 f"User Information\n" \
-                f"Fullname: {self.__fullname}\nEmail: {self.__email} \n" \
-                f"Telephone: {self.__telephoneNumber.phone_number} \nUserCode: {self.__code}\n" \
-                f"Gender: {self.__gender} \nTrainCode: {self.__code}\n"\
+                f"Fullname: {self.fullname}\nEmail: {self.email} \n" \
+                f"Telephone: {self.telephoneNumber.phone_number} \nUserCode: {self.code}\n" \
+                f"Gender: {self.gender} \nTrainCode: {self.code}\n"\
                 "--------------------------------------------------------------------------------"
     
     

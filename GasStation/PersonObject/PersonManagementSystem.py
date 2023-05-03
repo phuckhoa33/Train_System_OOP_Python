@@ -17,7 +17,7 @@ class UserManagementSystem(PersonManagementSystem):
     def mapping(self, code: int):
         user = self.find(code)
         for i in user:
-            saved_user = User(i['email'], i['fullname'], i['user_id'], i['telephoneNumber'], i['gender'])
+            saved_user = User(i['email'], i['fullname'], i['user_id'], i['phoneNumber'], i['gender'])
         return saved_user        
     
     def update(self):

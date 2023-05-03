@@ -1,12 +1,12 @@
 from Interface.WagonInterface import Wagon
 from Enum.WagonEnum import WagonType
-from WagonManagmentSystem import HeadManagementSystem, PassengerManagementSystem, RestaurantManagementSystem, CargoManagementSystem
+from WagonManagmentSystem import HeadHeadManagementSystem, PassengerManagementSystem, RestaurantManagementSystem, CargoManagementSystem
         
 class Head(Wagon):
     def __init__(self, code: int, width: int, height: int, length: int) -> None:
         super().__init__(code, width, height, length)
         self.__type = WagonType.HEAD
-        self.__manager = HeadManagementSystem(code)
+        self.__manager = HeadHeadManagementSystem(code)
 
     def display(self):
         return "HHHH"

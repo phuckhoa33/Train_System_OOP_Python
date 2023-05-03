@@ -3,12 +3,12 @@ from Contact.PhoneNumber import PhoneNumber
 from Enum.GenderEnum import GenderState
 
 class Person(ABC):
-    def __init__(self, email: str, fullname: str, code: str, telephoneNumber: str, gender: GenderState) -> None:
-        self.__email = email
-        self.__fullname = fullname
-        self.__code = code
-        self.__telephoneNumber = PhoneNumber(telephoneNumber)
-        self.__gender = gender
+    def __init__(self, email: str, fullname: str, code: int, telephoneNumber: str, gender: GenderState) -> None:
+        self.email = email
+        self.fullname = fullname
+        self.code = code
+        self.telephoneNumber = PhoneNumber(telephoneNumber)
+        self.gender = gender
 
     @abstractmethod
     def displayPersonInformation(self):

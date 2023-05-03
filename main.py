@@ -11,3 +11,4 @@ if __name__ == '__main__':
     # a = FirstHead("afaf", 3, 32, 32)
     # print(a.display())
     a = HeadHeadManagementSystem(1)
+    a.find_information_of_chair_room_goods(1)
