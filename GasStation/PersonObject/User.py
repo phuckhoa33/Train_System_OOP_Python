@@ -1,9 +1,9 @@
 from Enum.GenderEnum import GenderState
-from Contact.PhoneNumber import PhoneNumber
-from Interface.PersonInterface import Person, UserInterface
+from AbstractClass.PersonAbstractClass import PersonBaseClass
+from Interface.PersonInterface import UserInterface
 from Enum.PersonEnum import PersonEnum
 
-class User(Person, UserInterface):
+class User(PersonBaseClass, UserInterface):
     def __init__(self, email: str, fullname: str, code: str, telephoneNumber: str, gender: GenderState) -> None:
         super().__init__(email, fullname, code, telephoneNumber, gender)
         self.update_type(PersonEnum.USER)

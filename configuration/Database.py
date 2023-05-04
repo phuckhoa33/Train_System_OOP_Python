@@ -1,4 +1,3 @@
-import pymysql
 import mysql.connector as connector
 from Interface.DatabaseInterface import DatabaseConnection
 

@@ -1,8 +1,6 @@
-from Enum.WagonEnum import WagonType
-from Interface.WagonInterface import WagonManagementSystem
+from AbstractClass.WagonAbstractClass import WagonManagementSystemBaseClass
 
-
-class HeadHeadManagementSystem(WagonManagementSystem):
+class HeadHeadManagementSystem(WagonManagementSystemBaseClass):
     def __init__(self, code: int) -> None:
         super().__init__(code)
 
@@ -14,7 +12,7 @@ class HeadHeadManagementSystem(WagonManagementSystem):
         self.database.disconnect()
 
 
-class TailHeadManagementSystem(WagonManagementSystem):
+class TailHeadManagementSystem(WagonManagementSystemBaseClass):
     def __init__(self, code: int) -> None:
         super().__init__(code)
     
@@ -26,7 +24,7 @@ class TailHeadManagementSystem(WagonManagementSystem):
         self.database.disconnect()
 
 
-class PassengerManagementSystem(WagonManagementSystem):
+class PassengerManagementSystem(WagonManagementSystemBaseClass):
     def __init__(self, code: int, type: str) -> None:
         super().__init__(code)
         self.__type_chair = type
@@ -41,7 +39,7 @@ class PassengerManagementSystem(WagonManagementSystem):
     
 
 
-class RestaurantManagementSystem(WagonManagementSystem):
+class RestaurantManagementSystem(WagonManagementSystemBaseClass):
     def __init__(self, code: int) -> None:
         super().__init__(code)
     
@@ -54,7 +52,7 @@ class RestaurantManagementSystem(WagonManagementSystem):
     
 
 
-class CargoManagementSystem(WagonManagementSystem):
+class CargoManagementSystem(WagonManagementSystemBaseClass):
     def __init__(self, code: int) -> None:
         super().__init__(code)
 

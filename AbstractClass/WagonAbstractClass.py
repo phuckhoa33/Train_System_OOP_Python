@@ -1,27 +1,25 @@
 from abc import ABC, abstractmethod
-from Enum.WagonEnum import WagonType
 from configuration.Database import MysqlDatabaseConnection
 from GasStation.Train.Wagon.Chair import HardChair, SoftChair, Room
 from GasStation.PersonObject.PersonManagementSystem import UserManagementSystem
 from Interface.ChairInterface import ChairInterface
 from Interface.PersonInterface import UserInterface
-from Interface.WagonInterface import WagonManagementSystem
-from Interface.PersonInterface import Person
+from AbstractClass.PersonAbstractClass import PersonBaseClass
 from Enum.PersonEnum import PersonEnum
 
-class Wagon(ABC):
+class WagonBaseClass(ABC):
     def __init__(self, code: int, width: int, height: int, length: int) -> None:
-        self.__code = code
+        self.code = code
         self.__width = width
         self.__height = height
         self.__length = length
-        self.__isFull = self.__manager.__get_full_state()
-        self.__manager: WagonManagementSystem = None
+        self.__manager = None
 
-    def update_system(self, manager: WagonManagementSystem):
+    def update_system(self, manager):
         self.__manager = manager
+        self.__isFull = self.__manager.get_full_state()
 
-    def display(self, person: Person):
+    def display_catalog(self, person: PersonBaseClass):
         if person.type==PersonEnum.USER:
             self.__manager.buy_ticket()
         elif person.type==PersonEnum.ADMIN:
@@ -32,7 +30,7 @@ class Wagon(ABC):
         pass 
 
 
-class WagonManagementSystem(ABC):
+class WagonManagementSystemBaseClass(ABC):
     def __init__(self, code: int) -> None:
         self.code = code 
         self.database = MysqlDatabaseConnection()
@@ -99,13 +97,19 @@ class WagonManagementSystem(ABC):
         for data in self.__data:
             chair = None 
             if data['chair_type']=='hard':
-                chair = HardChair(data['chair_id'], data['wagon_id'], data['state'])
+                chair_id = int(data['chair_id'])
+                wagon_id = int(data['wagon_id'])
+                chair = HardChair(chair_id, wagon_id, data['state'])
     
             elif data['chair_type']=='soft':
-                chair = SoftChair(data['chair_id'], data['wagon_id'], data['state'])
+                chair_id = int(data['chair_id'])
+                wagon_id = int(data['wagon_id'])
+                chair = SoftChair(chair_id, wagon_id, data['state'])
                 
             elif data['chair_type']=='room':
-                chair = Room(data['chair_id'], data['wagon_id'], data['state'])
+                chair_id = int(data['chair_id'])
+                wagon_id = int(data['wagon_id'])
+                chair = Room(chair_id, wagon_id, data['state'])
                 
 
             if data['user_id']!=0:
@@ -135,7 +139,7 @@ class WagonManagementSystem(ABC):
         self.database.query_have_not_return(query, val)
         self.database.disconnect()
 
-    def __get_full_state(self) -> bool:
+    def get_full_state(self) -> bool:
         for data in self.__data:
             if data['state']=="unactive" or data['state']=="waiting":
                 return False 
