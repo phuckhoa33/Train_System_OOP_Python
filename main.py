@@ -1,7 +1,5 @@
 
-from Enum.GenderEnum import GenderState
-from configuration.Database import MysqlDatabaseConnection
-from GasStation.Train.Wagon.WagonManagmentSystem import HeadHeadManagementSystem
+from GasStation.Train.Wagon.Wagon import Head
 from Enum.WagonEnum import WagonType
 if __name__ == '__main__':
     # abc = HardChair("afa")
@@ -10,5 +8,8 @@ if __name__ == '__main__':
     # print(abc.displayInformation())
     # a = FirstHead("afaf", 3, 32, 32)
     # print(a.display())
-    a = HeadHeadManagementSystem(1)
-    a.find_information_of_chair_room_goods(1)
+    # a = HeadHeadManagementSystem(1)
+    # user = User("phuckhoa81@gmail.com", "nguyen khoa minh phuc", 1, "0972495038", 0)
+    # a.buy_ticket(user)
+    # a.create_new_chair_or_room_or_insert_goods("soft")
+    a = Head(1, 100, 200, 300)

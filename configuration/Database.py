@@ -31,5 +31,6 @@ class MysqlDatabaseConnection(DatabaseConnection):
 
         return result
 
-    def query_have_not_return(self, query: str):
-        self.__cursor.execute(query)
+    def query_have_not_return(self, query: str, val: tuple):
+        self.__cursor.execute(query, val)
+        self.__cnx.commit()
