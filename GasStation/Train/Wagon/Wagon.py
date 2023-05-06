@@ -16,7 +16,7 @@ class FirstHead(Head):
         self.update_system(HeadHeadManagementSystem(self.code))
 
     def display(self):
-        return "<" + super().display()
+        return "<" + super().display() + "::"
 
 class LastHead(Head):
     def __init__(self, code: int, width: int, height: int, length: int) -> None:
@@ -24,7 +24,7 @@ class LastHead(Head):
         self.update_system(TailHeadManagementSystem(self.code))
 
     def display(self):
-        return super().display() + ">"
+        return "::"+super().display() + ">"
     
 
 class Passenger(WagonBaseClass):
@@ -34,23 +34,26 @@ class Passenger(WagonBaseClass):
         self.update_system(PassengerManagementSystem(self.code))
     
     def display(self):
-        return "|OOOO|"
+        return "::|OOOO|::"
 class Restaurant(WagonBaseClass):
-    def __init__(self, code: str, width: int, height: int, length: int) -> None:
+    def __init__(self, code: int, width: int, height: int, length: int) -> None:
         super().__init__(code, width, height, length)
         self.__type = WagonType.RESTAURANT
         self.update_system(RestaurantManagementSystem(self.code))
 
     def display(self):
-        return "|hThT|"
+        return "::|hThT|::"
 
 class Cargo(WagonBaseClass):
-    def __init__(self, code: str, width: int, height: int, length: int) -> None:
+    def __init__(self, code: int, width: int, height: int, length: int) -> None:
         super().__init__(code, width, height, length)
         self.__type = WagonType.CARGO
         self.update_system(CargoManagementSystem(self.code))
 
     def display(self):
+        wagon = None
         if self.__isFull:
-            return "|____|"
-        return "|^^^^|"
+            wagon = "|____|"
+        else: 
+            wagon = "|^^^^|"
+        return "::" + wagon + "::"

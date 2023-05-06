@@ -96,19 +96,15 @@ class WagonManagementSystemBaseClass(ABC):
         D_chairs = {}
         for data in self.__data:
             chair = None 
+            chair_id = int(data['chair_id'])
+            wagon_id = int(data['wagon_id'])
             if data['chair_type']=='hard':
-                chair_id = int(data['chair_id'])
-                wagon_id = int(data['wagon_id'])
                 chair = HardChair(chair_id, wagon_id, data['state'])
     
-            elif data['chair_type']=='soft':
-                chair_id = int(data['chair_id'])
-                wagon_id = int(data['wagon_id'])
+            elif data['chair_type']=='soft': 
                 chair = SoftChair(chair_id, wagon_id, data['state'])
                 
             elif data['chair_type']=='room':
-                chair_id = int(data['chair_id'])
-                wagon_id = int(data['wagon_id'])
                 chair = Room(chair_id, wagon_id, data['state'])
                 
 

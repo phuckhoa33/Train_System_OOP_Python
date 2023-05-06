@@ -6,10 +6,5 @@ class Train():
         self.__code = code 
         self.__manager = TrainManagementSystem(code)
 
-    @property
-    def __wagons(self) -> list:
-        return []
-    
-
     def display(self) -> str:
         return ""
