@@ -17,13 +17,13 @@ class WagonBaseClass(ABC):
 
     def update_system(self, manager):
         self.__manager = manager
-        self.__isFull = self.__manager.get_full_state()
+        self.isFull = self.__manager.get_full_state()
 
     def display_catalog(self, person: PersonBaseClass):
         if person.type==PersonEnum.USER:
-            self.__manager.buy_ticket()
+            self.__manager.buy_ticket(person)
         elif person.type==PersonEnum.ADMIN:
-            self.__manager.admin_catalog()
+            self.__manager.admin_catalog(person)
 
     @abstractmethod
     def display(self):
@@ -38,7 +38,7 @@ class WagonManagementSystemBaseClass(ABC):
         self.__data = self.__get_data_depend_on_wagon_type()
         self.chairs = self.__get_chairs()
 
-    def admin_catalog(self):
+    def admin_catalog(self, person: PersonBaseClass):
         choose: int = -1
 
         while choose != 0:
@@ -53,11 +53,11 @@ class WagonManagementSystemBaseClass(ABC):
             match choose:
                 case 1: 
                     a = int(input("What code: "))
-                    self.find_information_of_chair_room_goods(a)
+                    self.__find_information_of_chair_room_goods(a)
                 case 2: 
                     state = input("What state do you want to change: ")
                     converted_state = input("What state do you want to change into: ")
-                    self.convert_state_of_all_chair(state, converted_state)
+                    self.__convert_state_of_all_chair(state, converted_state)
                 case 3: 
                     self.create_new_chair_or_room_or_insert_goods()
                 case 0:
@@ -124,11 +124,11 @@ class WagonManagementSystemBaseClass(ABC):
         return a
 
 
-    def find_information_of_chair_room_goods(self, code: int):
+    def __find_information_of_chair_room_goods(self, code: int):
         infor = self.chairs[code].displayInformation()
         print(infor)
 
-    def convert_state_of_all_chair(self, state: str, current_state: str):
+    def __convert_state_of_all_chair(self, state: str, current_state: str):
         self.database.connect()
         query = f"UPDATE chair SET state = %s WHERE wagon_id = %s and state = %s"
         val = (state, self.code, current_state)

@@ -25,9 +25,14 @@ class TailHeadManagementSystem(WagonManagementSystemBaseClass):
 
 
 class PassengerManagementSystem(WagonManagementSystemBaseClass):
-    def __init__(self, code: int, type: str) -> None:
+    def __init__(self, code: int) -> None:
         super().__init__(code)
-        self.__type_chair = type
+
+    @property
+    def __type_chair(self):
+        query = f"SELECT chair_type FROM chair WHERE wagon_id = {self.code}"
+        result = self.database.query_have_return(query)
+        return result[0]['chair_type']
     
     def create_new_chair_or_room_or_insert_goods(self):
         self.database.connect()
