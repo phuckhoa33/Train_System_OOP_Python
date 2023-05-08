@@ -37,29 +37,26 @@ CREATE TABLE chair (
     user_id INT,
     state VARCHAR(10),
     PRIMARY KEY(chair_id),
-    FOREIGN KEY(user_id) REFERENCES user(user_id),
+    chair_type VARCHAR(10),
     FOREIGN KEY(wagon_id) REFERENCES wagon(wagon_id)
 );
-ALTER TABLE chair ADD COLUMN chair_type VARCHAR(10);
 
 CREATE TABLE wagon(
 	wagon_id INT NOT NULL AUTO_INCREMENT,
     train_id INT,
     width DOUBLE,
     height DOUBLE,
+    wagon_type VARCHAR(20),
     length DOUBLE,
 	PRIMARY KEY(wagon_id),
     FOREIGN KEY(train_id) REFERENCES train(train_id)
 );
 
-ALTER TABLE wagon ADD COLUMN wagon_type VARCHAR(20);
-
 CREATE TABLE train(
 	train_id INT NOT NULL AUTO_INCREMENT,
+    train_name VARCHAR(10),
     PRIMARY KEY(train_id)
 );
-
-ALTER TABLE train ADD COLUMN train_name VARCHAR(10);
 
 select * from train;	
 
@@ -68,12 +65,11 @@ CREATE TABLE staff (
     title VARCHAR(50),
     fullname VARCHAR(50),
     telephoneNumber VARCHAR(10),
+    email VARCHAR(50),
     gender INT,
     address_id INT,
     PRIMARY KEY(staff_id)
 );
-
-ALTER TABLE staff ADD COLUMN email VARCHAR(50);
 
 
 
@@ -86,8 +82,7 @@ CREATE TABLE trainworker(
     FOREIGN KEY(train_id) REFERENCES train(train_id)
 );
 
-INSERT INTO address(communce, distict, city, country) VALUES ("Vinh Loc A", "Binh Chanh", "Ho Chi Minh", "VietNam"),
-							("Ba Diem", "Hoc Mon", "Ho Chi Minh", "VietNam");
+INSERT INTO address(communce, distict, city, country) VALUES ("Vinh Loc A", "Binh Chanh", "Ho Chi Minh", "VietNam"),("Ba Diem", "Hoc Mon", "Ho Chi Minh", "VietNam");
                             
 SELECT * FROM address;
 
@@ -122,15 +117,14 @@ INSERT INTO wagon(train_id, width, height, length, wagon_type) VALUES (1, 20.0, 
                                                     (2, 5, 5, 5, "cargo"),
                                                     (2, 5, 5, 5, "cargo");
                                                     
-INSERT INTO chair(wagon_id, user_id, state, chair_type) VALUES
-												(1, 1, "active", "hard"),
-												(1, 2, "active", "soft"),
-                                                (1, 3, "active","room"),
+INSERT INTO chair(wagon_id, user_id, state, chair_type) VALUES (1, 1, "active", "hard"),
+												(4, 2, "active", "soft"),
+                                                (2, 3, "active","room"),
                                                 (1, 4, "active", "hard"),
                                                 (1, 0, "waiting", "hard"),
-                                                (1, 0, "waiting", "soft"),
-                                                (1, 0, "unactive", "soft"),
-                                                (1, 0, "unactive", "soft"),
-                                                (1, 0, "unactive","room");	
+                                                (3, 0, "waiting", "soft"),
+                                                (3, 0, "unactive", "soft"),
+                                                (3, 0, "unactive", "soft"),
+                                                (2, 0, "unactive","room");	
                                                 
 SELECT * FROM wagon WHERE wagon_type = passenger;
