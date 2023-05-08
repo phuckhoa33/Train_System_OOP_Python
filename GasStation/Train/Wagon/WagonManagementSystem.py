@@ -27,7 +27,6 @@ class TailHeadManagementSystem(WagonManagementSystemBaseClass):
 class PassengerManagementSystem(WagonManagementSystemBaseClass):
     def __init__(self, code: int) -> None:
         super().__init__(code)
-        print(self.__type_chair)
 
     @property
     def __type_chair(self):
