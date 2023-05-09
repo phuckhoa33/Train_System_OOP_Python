@@ -1,5 +1,6 @@
 from GasStation.Train.Train import Train
 from GasStation.PersonObject.User import User
+from GasStation.PersonObject.Admin import Admin
 from Enum.GenderEnum import GenderState
 if __name__ == '__main__':
     # abc = HardChair("afa")

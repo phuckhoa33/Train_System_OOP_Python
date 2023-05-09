@@ -30,7 +30,7 @@ class TrainManagementSystem():
 
             if wagon['wagon_type']=="firsthead":
                 checked_wagon = FirstHead(wagon_id, width, height, length)
-            elif wagon['wagon_type']=="lasthead":
+            elif wagon['wagon_type']=="tailhead":
                 checked_wagon = LastHead(wagon_id, width, height, length)
             elif wagon['wagon_type']=="passenger":
                 checked_wagon = Passenger(wagon_id, width, height, length)
@@ -38,6 +38,9 @@ class TrainManagementSystem():
                 checked_wagon = Restaurant(wagon_id, width, height,length)
             elif wagon['wagon_type']=="cargo":
                 checked_wagon = Cargo(wagon_id, width, height, length)
+
+            if checked_wagon == None:
+                continue
             
             D_wagon[wagon_id] = checked_wagon
         return D_wagon
@@ -53,7 +56,7 @@ class TrainManagementSystem():
         self.__wagons[code].display_catalog(person)
 
     def __display_train_running(self):
-        sequence = "".join([wagon.display() for wagon in self.__wagons])
+        sequence = "".join([wagon.display() for wagon in self.__wagons.values()])
         print(sequence)
 
     def catalog(self, person: PersonBaseClass):
@@ -65,7 +68,7 @@ class TrainManagementSystem():
             if person.type == PersonEnum.ADMIN:
                 print("2. Create wagon")
             print("3. Display and watch train running") 
-            print("4. Exit")
+            print("0. Exit")
             print("----------------------------------")
 
             choose = int(input("Your chosen is: "))
@@ -76,10 +79,12 @@ class TrainManagementSystem():
                     wagon: WagonBaseClass = self.__find_wagon(code, person)
                     wagon.display_catalog()
                 case 2:
+                    if person.type == PersonEnum.USER:
+                        continue
                     wagon_type = input("What wagon do you want to create: ")
-                    if wagon_type not in ["restaurant", "cargo", "firsthead", "lasthead", "passenger"]:
+                    if wagon_type not in ["restaurant", "cargo", "firsthead", "lasthead", "passenger"] :
                         print("Your chosen wagon type is invalid")
-                        break 
+                        continue 
                     width = int(input("How many width: "))
                     height = int(input("How many height: "))
                     length = int(input("How many length: "))

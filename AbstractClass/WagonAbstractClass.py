@@ -36,7 +36,7 @@ class WagonManagementSystemBaseClass(ABC):
         self.database = MysqlDatabaseConnection()
         self.__user_manager = UserManagementSystem()
         self.__data = self.__get_data_depend_on_wagon_type()
-        self.chairs = self.__get_chairs()
+        self.__chairs = self.__get_chairs()
 
     def admin_catalog(self, person: PersonBaseClass):
         choose: int = -1
@@ -65,9 +65,13 @@ class WagonManagementSystemBaseClass(ABC):
 
     def buy_ticket(self, user: UserInterface):
         self.database.connect()
-        query = "SELECT chair_id, chair_type FROM chair WHERE state = 'unactive'"
+        query = f"SELECT chair_id, chair_type FROM chair WHERE state = 'unactive' and wagon_id = {self.code}"
         tickets = self.database.query_have_return(query)
         tks = [ticket['chair_id'] for ticket in tickets]
+
+        if len(tickets) == 0:
+            print("Tickets is over")
+            return 
 
         print("------------------------------------")
         for ticket in tickets:
@@ -77,7 +81,8 @@ class WagonManagementSystemBaseClass(ABC):
 
         
         if choose in tks:
-            chair: ChairInterface = self.chairs[choose]   
+            print(self.__chairs)
+            chair: ChairInterface = self.__chairs[choose]   
             chair.displayInformation()
             vertify = input("Do you want to pay this payment? ")
 
@@ -125,7 +130,7 @@ class WagonManagementSystemBaseClass(ABC):
 
 
     def __find_information_of_chair_room_goods(self, code: int):
-        infor = self.chairs[code].displayInformation()
+        infor = self.__chairs[code].displayInformation()
         print(infor)
 
     def __convert_state_of_all_chair(self, state: str, current_state: str):

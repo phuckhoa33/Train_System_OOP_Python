@@ -51,7 +51,7 @@ class Cargo(WagonBaseClass):
 
     def display(self):
         wagon = None
-        if self.__isFull:
+        if self.isFull:
             wagon = "|____|"
         else: 
             wagon = "|^^^^|"
