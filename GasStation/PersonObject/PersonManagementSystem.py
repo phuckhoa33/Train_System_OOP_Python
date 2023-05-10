@@ -1,4 +1,4 @@
-from Interface.PersonInterface import PersonManagementSystem
+from Interface.PersonManagementSystemInterface import PersonManagementSystem
 from configuration.Database import MysqlDatabaseConnection
 from GasStation.PersonObject.User import User
 

@@ -1,5 +1,5 @@
 from Enum.GenderEnum import GenderState
-from AbstractClass.PersonAbstractClass import PersonBaseClass
+from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
 
 class Driver(PersonBaseClass):
     def __init__(self, email: str, fullname: str, code: str, telephoneNumber: str, gender: GenderState, train_code: str) -> None:

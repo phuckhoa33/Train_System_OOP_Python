@@ -1,8 +1,13 @@
 from configuration.Database import MysqlDatabaseConnection
-from GasStation.Train.Wagon.Wagon import FirstHead, LastHead, Passenger, Restaurant, Cargo
-from AbstractClass.PersonAbstractClass import PersonBaseClass
-from AbstractClass.WagonAbstractClass import WagonBaseClass
+from GasStation.Train.Wagon.WagonType.PassengerWagon import Passenger
+from GasStation.Train.Wagon.WagonType.RestaurantWagon import Restaurant
+from GasStation.Train.Wagon.WagonType.HeadWagon import FirstHead, LastHead
+from GasStation.Train.Wagon.WagonType.CargoWagon import Cargo
+from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
+from GasStation.Train.Wagon.WagonType.AbstractClass.WagonAbstractClass import WagonBaseClass
 from Enum.PersonEnum import PersonEnum
+from Enum.WagonEnum import WagonType
+import keyboard
 
 class TrainManagementSystem():
     def __init__(self, code: int) -> None:
@@ -53,14 +58,37 @@ class TrainManagementSystem():
         self.database.disconnect()
 
     def __find_wagon(self, code: int, person: PersonBaseClass):
-        self.__wagons[code].display_catalog(person)
+        try:
+            self.__wagons[code].display_catalog(person)
+        except KeyError:
+            print("Your chosen don't have wagon")
 
     def __display_train_running(self):
-        sequence = "".join([wagon.display() for wagon in self.__wagons.values()])
-        print(sequence)
+        sequence = [[], [], [], [], []]
+        for wagon in self.__wagons.values():
+            if wagon.type==WagonType.FIRST_HEAD:
+                sequence[0].append(wagon.display())
+            elif wagon.type==WagonType.LAST_HEAD:
+                sequence[-1].append(wagon.display())
+            elif wagon.type==WagonType.PASSENGER:
+                sequence[1].append(wagon.display())
+            elif wagon.type==WagonType.RESTAURANT:
+                sequence[2].append(wagon.display())
+            elif wagon.type==WagonType.CARGO:
+                sequence[3].append(wagon.display())  
+        sequence = "".join("".join(i) for i in sequence)    
+
+
+        while True:
+            print(sequence, end='  ')
+
+            if keyboard.is_pressed('q'):
+                print('You pressed the "q" key!')
+                break
+
+
 
     def catalog(self, person: PersonBaseClass):
-        print(self.__wagons)
         choose = -1
         while choose != 0:
             print("----------------------------------")
@@ -82,7 +110,7 @@ class TrainManagementSystem():
                     if person.type == PersonEnum.USER:
                         continue
                     wagon_type = input("What wagon do you want to create: ")
-                    if wagon_type not in ["restaurant", "cargo", "firsthead", "lasthead", "passenger"] :
+                    if wagon_type not in ["restaurant", "cargo", "passenger"] :
                         print("Your chosen wagon type is invalid")
                         continue 
                     width = int(input("How many width: "))

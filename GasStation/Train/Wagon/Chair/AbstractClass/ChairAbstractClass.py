@@ -1,5 +1,5 @@
 from Enum.ChairEnum import ChairState, ChairType
-from AbstractClass.PersonAbstractClass import PersonBaseClass
+from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
 from configuration.Database import MysqlDatabaseConnection
 from Interface.ChairInterface import ChairInterface
 

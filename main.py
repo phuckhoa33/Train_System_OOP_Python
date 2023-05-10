@@ -2,6 +2,7 @@ from GasStation.Train.Train import Train
 from GasStation.PersonObject.User import User
 from GasStation.PersonObject.Admin import Admin
 from Enum.GenderEnum import GenderState
+import sys
 if __name__ == '__main__':
     # abc = HardChair("afa")
     # user = User("phuckhoa81@gmail.com", "nguyen khoa minh phuc", "sfafa", "0939672575", GenderState.MALE)
@@ -13,6 +14,13 @@ if __name__ == '__main__':
     # user = User("phuckhoa81@gmail.com", "nguyen khoa minh phuc", 1, "0972495038", 0)
     # a.buy_ticket(user)
     # a.create_new_chair_or_room_or_insert_goods("soft")
-    train = Train("afa", 1)
-    user = User("phuckhoa81@gmail.com", "nguyen khoa minh phuc", 1, "0972495038", 0)
-    train.display(user)
+    try:
+        train = Train("afa", 1)
+        user = User("phuckhoa81@gmail.com", "nguyen khoa minh phuc", 1, "0972495038", 0)
+        train.display(user)
+        
+    except KeyboardInterrupt:
+        sys.exit()
+
+    except AttributeError:
+        sys.exit()

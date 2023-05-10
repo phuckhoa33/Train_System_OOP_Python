@@ -1,33 +1,12 @@
 from abc import ABC, abstractmethod
 from configuration.Database import MysqlDatabaseConnection
-from GasStation.Train.Wagon.Chair import HardChair, SoftChair, Room
+from GasStation.Train.Wagon.Chair.HardChair import HardChair
+from GasStation.Train.Wagon.Chair.SortChair import SoftChair
+from GasStation.Train.Wagon.Chair.Room import Room
 from GasStation.PersonObject.PersonManagementSystem import UserManagementSystem
 from Interface.ChairInterface import ChairInterface
 from Interface.PersonInterface import UserInterface
-from AbstractClass.PersonAbstractClass import PersonBaseClass
-from Enum.PersonEnum import PersonEnum
-
-class WagonBaseClass(ABC):
-    def __init__(self, code: int, width: int, height: int, length: int) -> None:
-        self.code = code
-        self.__width = width
-        self.__height = height
-        self.__length = length
-        self.__manager = None
-
-    def update_system(self, manager):
-        self.__manager = manager
-        self.isFull = self.__manager.get_full_state()
-
-    def display_catalog(self, person: PersonBaseClass):
-        if person.type==PersonEnum.USER:
-            self.__manager.buy_ticket(person)
-        elif person.type==PersonEnum.ADMIN:
-            self.__manager.admin_catalog(person)
-
-    @abstractmethod
-    def display(self):
-        pass 
+from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
 
 
 class WagonManagementSystemBaseClass(ABC):
@@ -48,7 +27,7 @@ class WagonManagementSystemBaseClass(ABC):
                 "3. Create chair\n"\
                 "0. Exit\n"\
                 "---------------------------------------------------------\n")
-            choose = input("What your choosen: ")
+            choose = int(input("What your chosen: "))
 
             match choose:
                 case 1: 
@@ -62,11 +41,35 @@ class WagonManagementSystemBaseClass(ABC):
                     self.create_new_chair_or_room_or_insert_goods()
                 case 0:
                     break 
+    def user_catalog(self, person: PersonBaseClass):
+        choose: int = -1
 
-    def buy_ticket(self, user: UserInterface):
+        while choose != 0:
+            print("-------------------------------------------------------\n"\
+                "1. Find chair\n"\
+                "2. Buy chair\n"\
+                "0. Exit\n"\
+                "---------------------------------------------------------\n")
+            choose = int(input("What your chosen: "))
+
+            match choose:
+                case 1: 
+                    a = int(input("What code: "))
+                    self.__find_information_of_chair_room_goods(a)
+                case 2: 
+                    self.__buy_ticket(person)
+                case 0:
+                    return
+
+    def __get_all_available_chair(self):
         self.database.connect()
         query = f"SELECT chair_id, chair_type FROM chair WHERE state = 'unactive' and wagon_id = {self.code}"
         tickets = self.database.query_have_return(query)
+        self.database.disconnect()
+        return tickets
+
+    def __buy_ticket(self, user: UserInterface):
+        tickets = self.__get_all_available_chair()
         tks = [ticket['chair_id'] for ticket in tickets]
 
         if len(tickets) == 0:
@@ -86,7 +89,7 @@ class WagonManagementSystemBaseClass(ABC):
             chair.displayInformation()
             vertify = input("Do you want to pay this payment? ")
 
-            if vertify:
+            if vertify=="yes":
                 if user.payment():
                     print("Very happy to have served you. See you next time")
                 else:
@@ -95,7 +98,6 @@ class WagonManagementSystemBaseClass(ABC):
                 print("See you again!!")
         else:
             print("See you again")
-        self.database.disconnect()
     
     def __get_chairs(self) -> list:
         D_chairs = {}
@@ -130,9 +132,12 @@ class WagonManagementSystemBaseClass(ABC):
 
 
     def __find_information_of_chair_room_goods(self, code: int):
-        infor = self.__chairs[code].displayInformation()
-        print(infor)
-
+        try:
+            infor = self.__chairs[code].displayInformation()
+            print(infor)
+        except KeyError:
+            print("Your chosen don't have in this wagon")
+    
     def __convert_state_of_all_chair(self, state: str, current_state: str):
         self.database.connect()
         query = f"UPDATE chair SET state = %s WHERE wagon_id = %s and state = %s"

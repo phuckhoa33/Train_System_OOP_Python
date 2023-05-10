@@ -1,5 +1,5 @@
 from GasStation.Train.TrainManagementSystem import TrainManagementSystem
-from AbstractClass.PersonAbstractClass import PersonBaseClass
+from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
 class Train():
     def __init__(self, train_name: str, code: int) -> None:
         self.train_name = train_name

@@ -1,6 +1,7 @@
 from enum import Enum
 class WagonType(Enum):
-    HEAD = "head"
+    FIRST_HEAD = "firsthead"
+    LAST_HEAD = "tailhead"
     PASSENGER = "passenger"
     RESTAURANT = "restaurant"
     CARGO = "cargo"

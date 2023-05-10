@@ -1,5 +1,5 @@
 from Enum.GenderEnum import GenderState
-from AbstractClass.PersonAbstractClass import PersonBaseClass
+from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
 from Enum.PersonEnum import PersonEnum
 
 

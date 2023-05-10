@@ -1,5 +1,5 @@
 from Enum.GenderEnum import GenderState
-from AbstractClass.PersonAbstractClass import PersonBaseClass
+from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
 from Interface.PersonInterface import UserInterface
 from Enum.PersonEnum import PersonEnum
 
@@ -15,7 +15,7 @@ class User(PersonBaseClass, UserInterface):
         pass 
 
     def payment(self):
-        pass 
+        return True
 
     def displayPersonInformation(self):
         return  "--------------------------------------------------------------------------------\n"\
@@ -23,6 +23,6 @@ class User(PersonBaseClass, UserInterface):
                 f"Fullname: {self.fullname}\nEmail: {self.email} \n" \
                 f"Telephone: {self.telephoneNumber.phone_number} \nUserCode: {self.code}\n" \
                 f"Gender: {self.gender} \nTrainCode: {self.code}\n"\
-                "--------------------------------------------------------------------------------"
+                "--------------------------------------------------------------------------------\n"
     
     
