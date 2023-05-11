@@ -7,6 +7,7 @@ from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBase
 from GasStation.Train.Wagon.WagonType.AbstractClass.WagonAbstractClass import WagonBaseClass
 from Enum.PersonEnum import PersonEnum
 from Enum.WagonEnum import WagonType
+from Interface.TrainInterface import TrainInterface
 import keyboard
 
 class TrainManagementSystem():
@@ -49,6 +50,9 @@ class TrainManagementSystem():
             
             D_wagon[wagon_id] = checked_wagon
         return D_wagon
+    
+    def get__workers(self, train: TrainInterface):
+        pass
 
     def __create_wagon(self, wagon_type: str, width, height, length):
         self.database.connect()
