@@ -7,12 +7,13 @@ from GasStation.PersonObject.PersonManagementSystem import UserManagementSystem
 from Interface.ChairInterface import ChairInterface
 from Interface.PersonInterface import UserInterface
 from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
+from Interface.DatabaseInterface import DatabaseConnection
 
 
 class WagonManagementSystemBaseClass(ABC):
-    def __init__(self, code: int) -> None:
+    def __init__(self, code: int, database: DatabaseConnection) -> None:
         self.code = code 
-        self.database = MysqlDatabaseConnection()
+        self.database = database
         self.__user_manager = UserManagementSystem()
         self.__data = self.__get_data_depend_on_wagon_type()
         self.__chairs = self.__get_chairs()
@@ -106,13 +107,13 @@ class WagonManagementSystemBaseClass(ABC):
             chair_id = int(data['chair_id'])
             wagon_id = int(data['wagon_id'])
             if data['chair_type']=='hard':
-                chair = HardChair(chair_id, wagon_id, data['state'])
+                chair = HardChair(chair_id, wagon_id, data['state'], self.database)
     
             elif data['chair_type']=='soft': 
-                chair = SoftChair(chair_id, wagon_id, data['state'])
+                chair = SoftChair(chair_id, wagon_id, data['state'], self.database)
                 
             elif data['chair_type']=='room':
-                chair = Room(chair_id, wagon_id, data['state'])
+                chair = Room(chair_id, wagon_id, data['state'], self.database)
                 
 
             if data['user_id']!=0:

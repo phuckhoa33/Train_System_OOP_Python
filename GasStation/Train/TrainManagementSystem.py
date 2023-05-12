@@ -8,12 +8,14 @@ from GasStation.Train.Wagon.WagonType.AbstractClass.WagonAbstractClass import Wa
 from Enum.PersonEnum import PersonEnum
 from Enum.WagonEnum import WagonType
 from Interface.TrainInterface import TrainInterface
+from Interface.DatabaseInterface import DatabaseConnection
 import keyboard
+from caching.WorkingStatus import WorkingStatus
 
 class TrainManagementSystem():
-    def __init__(self, code: int) -> None:
+    def __init__(self, code: int, database: DatabaseConnection) -> None:
         self.__code = code 
-        self.database = MysqlDatabaseConnection()
+        self.database = database
 
     @property
     def __data(self):
@@ -35,15 +37,15 @@ class TrainManagementSystem():
             length = int(wagon['length'])
 
             if wagon['wagon_type']=="firsthead":
-                checked_wagon = FirstHead(wagon_id, width, height, length)
+                checked_wagon = FirstHead(wagon_id, width, height, length, self.database)
             elif wagon['wagon_type']=="tailhead":
-                checked_wagon = LastHead(wagon_id, width, height, length)
+                checked_wagon = LastHead(wagon_id, width, height, length, self.database)
             elif wagon['wagon_type']=="passenger":
-                checked_wagon = Passenger(wagon_id, width, height, length)
+                checked_wagon = Passenger(wagon_id, width, height, length, self.database)
             elif wagon['wagon_type']=="restaurant":
-                checked_wagon = Restaurant(wagon_id, width, height,length)
+                checked_wagon = Restaurant(wagon_id, width, height,length, self.database)
             elif wagon['wagon_type']=="cargo":
-                checked_wagon = Cargo(wagon_id, width, height, length)
+                checked_wagon = Cargo(wagon_id, width, height, length, self.database)
 
             if checked_wagon == None:
                 continue
@@ -52,7 +54,16 @@ class TrainManagementSystem():
         return D_wagon
     
     def get__workers(self, train: TrainInterface):
-        pass
+        self.database.connect()
+
+        query = "SELECT * FROM staff"
+        result = self.database.query_have_return(query)
+        working_status = WorkingStatus(result)
+        train.__driver = working_status.choose_driver()
+        train.__co_driver = working_status.choose_co_driver()
+        train.__waiters = working_status.choose_waiter()
+
+        self.database.disconnect()
 
     def __create_wagon(self, wagon_type: str, width, height, length):
         self.database.connect()

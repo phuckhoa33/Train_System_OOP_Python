@@ -2,7 +2,7 @@ from Enum.ChairEnum import ChairState, ChairType
 from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
 from configuration.Database import MysqlDatabaseConnection
 from Interface.ChairInterface import ChairInterface
-
+from Interface.DatabaseInterface import DatabaseConnection
 
 
 
@@ -10,12 +10,12 @@ class ChairBaseClass(ChairInterface):
     def __init__(self) -> None:
         raise NotImplementedError("Cannot instantiate this class")
     
-    def initiate_information(self, __code: str, type: ChairType, wagon_id: str, state: str):
+    def initiate_information(self, __code: str, type: ChairType, wagon_id: str, state: str, database: DatabaseConnection):
         self.__code = __code 
         self.__wagon_id = wagon_id
         self.__owner = None
         self.__state = state
-        self.__database = MysqlDatabaseConnection()
+        self.__database = database
         self.update_type(type)
 
     def set_ownership(self, owner: PersonBaseClass) -> None:

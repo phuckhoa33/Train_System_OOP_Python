@@ -2,6 +2,7 @@ from GasStation.Train.Train import Train
 from GasStation.PersonObject.User import User
 from GasStation.PersonObject.Admin import Admin
 from Enum.GenderEnum import GenderState
+from configuration.Database import MysqlDatabaseConnection
 import sys
 if __name__ == '__main__':
     # abc = HardChair("afa")
@@ -15,7 +16,8 @@ if __name__ == '__main__':
     # a.buy_ticket(user)
     # a.create_new_chair_or_room_or_insert_goods("soft")
     try:
-        train = Train("afa", 1)
+        a = MysqlDatabaseConnection()
+        train = Train("afa", 1, a)
         user = User("phuckhoa81@gmail.com", "nguyen khoa minh phuc", 1, "0972495038", 0)
         train.display(user)
         
