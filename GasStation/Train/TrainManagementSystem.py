@@ -1,4 +1,3 @@
-from configuration.Database import MysqlDatabaseConnection
 from GasStation.Train.Wagon.WagonType.PassengerWagon import Passenger
 from GasStation.Train.Wagon.WagonType.RestaurantWagon import Restaurant
 from GasStation.Train.Wagon.WagonType.HeadWagon import FirstHead, LastHead
@@ -9,8 +8,13 @@ from Enum.PersonEnum import PersonEnum
 from Enum.WagonEnum import WagonType
 from Interface.TrainInterface import TrainInterface
 from Interface.DatabaseInterface import DatabaseConnection
-import keyboard
 from caching.WorkingStatus import WorkingStatus
+from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
+
+# Build-in module
+import keyboard
+import time
+import sys
 
 class TrainManagementSystem():
     def __init__(self, code: int, database: DatabaseConnection) -> None:
@@ -53,15 +57,27 @@ class TrainManagementSystem():
             D_wagon[wagon_id] = checked_wagon
         return D_wagon
     
-    def get__workers(self, train: TrainInterface):
+    def get__workers(self, train: TrainInterface, person: PersonBaseClass):
         self.database.connect()
 
         query = "SELECT * FROM staff"
         result = self.database.query_have_return(query)
         working_status = WorkingStatus(result)
-        train.__driver = working_status.choose_driver()
-        train.__co_driver = working_status.choose_co_driver()
-        train.__waiters = working_status.choose_waiter()
+        train._driver = working_status.choose_driver()
+        train._co_driver = working_status.choose_co_driver()
+        train._waiters = working_status.choose_waiter()
+        self.database.disconnect()
+
+        if person.type==PersonEnum.ADMIN:
+            choose = input("Do you want to add new workers")
+            if choose=="yes" or train._driver==None \
+            or train._co_driver== None or train._waiter==None:
+                self.__add_workers_for_train(train)
+
+    def __add_workers_for_train(self, train: TrainInterface):
+        self.database.connect()
+
+        
 
         self.database.disconnect()
 
@@ -91,16 +107,24 @@ class TrainManagementSystem():
                 sequence[2].append(wagon.display())
             elif wagon.type==WagonType.CARGO:
                 sequence[3].append(wagon.display())  
-        sequence = "".join("".join(i) for i in sequence)    
+        sequence = "".join("".join(i) for i in sequence)+"     "
 
 
         while True:
-            print(sequence, end='  ')
+            try:
+                sys.stdout.write(sequence)
+                sys.stdout.flush()
+                time.sleep(0.1)
+                sys.stdout.write('\b')
+                sys.stdout.flush()
 
-            if keyboard.is_pressed('q'):
-                print('You pressed the "q" key!')
+                if keyboard.is_pressed('q'):
+                    print('You pressed the "q" key!')
+                    break
+            except ValueError: 
                 break
-
+            except: 
+                break
 
 
     def catalog(self, person: PersonBaseClass):
@@ -110,6 +134,7 @@ class TrainManagementSystem():
             print("1. Find wagon")
             if person.type == PersonEnum.ADMIN:
                 print("2. Create wagon")
+                print()
             print("3. Display and watch train running") 
             print("0. Exit")
             print("----------------------------------")
