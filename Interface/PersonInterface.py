@@ -12,3 +12,20 @@ class UserInterface(ABC):
     @abstractmethod
     def payment(self):
         pass 
+
+class AdminInterface(ABC):
+    @abstractmethod
+    def grant_rights(self):
+        pass 
+
+    @abstractmethod
+    def create_new_chair(self, wagon_id):
+        pass
+
+    @abstractmethod
+    def create_new_wagon(self, train_id: int):
+        pass 
+
+    @abstractmethod 
+    def create_new_train(self):
+        pass 
