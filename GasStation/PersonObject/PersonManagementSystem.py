@@ -6,7 +6,7 @@ from GasStation.PersonObject.User import User
 class UserManagementSystem(PersonManagementSystem):
     def __init__(self) -> None:
         super().__init__()
-        self.__database = MysqlDatabaseConnection()
+        self.__database = None
         self.__database.connect()
 
     def find(self, code: int):

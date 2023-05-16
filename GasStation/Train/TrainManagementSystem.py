@@ -8,7 +8,6 @@ from Enum.PersonEnum import PersonEnum
 from Enum.WagonEnum import WagonType
 from Interface.TrainInterface import TrainInterface
 from Interface.DatabaseInterface import DatabaseConnection
-from caching.WorkingStatus import WorkingStatus
 from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
 
 # Build-in module
@@ -17,7 +16,7 @@ import time
 import sys
 
 class TrainManagementSystem():
-    def __init__(self, code: int, database: DatabaseConnection) -> None:
+    def __init__(self, code: int) -> None:
         self.__code = code 
         self.database = database
 
@@ -57,15 +56,14 @@ class TrainManagementSystem():
             D_wagon[wagon_id] = checked_wagon
         return D_wagon
     
-    def get__workers(self, train: TrainInterface, person: PersonBaseClass):
+    def get__workers(self, train: TrainInterface):
         self.database.connect()
 
-        query = "SELECT * FROM staff"
+        query = "SELECT  S1.title"\
+                "FROM staff S1"\
+                "INNER JOIN trainworker S2 ON S1.staff_id=S2.staff_id"\
+                f"WHERE S2.train_id={self.__code}"
         result = self.database.query_have_return(query)
-        working_status = WorkingStatus(result)
-        train._driver = working_status.choose_driver()
-        train._co_driver = working_status.choose_co_driver()
-        train._waiters = working_status.choose_waiter()
         self.database.disconnect()
 
         if person.type==PersonEnum.ADMIN:

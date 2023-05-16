@@ -5,10 +5,10 @@ from Interface.DatabaseInterface import DatabaseConnection
 
 
 class Cargo(WagonBaseClass):
-    def __init__(self, code: int, width: int, height: int, length: int, database: DatabaseConnection) -> None:
+    def __init__(self, code: int, width: int, height: int, length: int) -> None:
         super().__init__(code, width, height, length)
         self.type = WagonType.CARGO
-        self.update_system(CargoManagementSystem(self.code, database))
+        self.update_system(CargoManagementSystem(self.code))
 
     def display(self):
         wagon = None

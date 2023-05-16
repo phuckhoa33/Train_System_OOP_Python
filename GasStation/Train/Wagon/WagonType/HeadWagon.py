@@ -11,19 +11,19 @@ class Head(WagonBaseClass):
         return "HHHH"
 
 class FirstHead(Head):
-    def __init__(self, code: int, width: int, height: int, length: int, database: DatabaseConnection) -> None:
+    def __init__(self, code: int, width: int, height: int, length: int) -> None:
         super().__init__(code, width, height, length)
         self.type = WagonType.FIRST_HEAD
-        self.update_system(HeadHeadManagementSystem(self.code, database))
+        self.update_system(HeadHeadManagementSystem(self.code))
 
     def display(self):
         return "<" + super().display() + "::"
 
 class LastHead(Head):
-    def __init__(self, code: int, width: int, height: int, length: int, database: DatabaseConnection) -> None:
+    def __init__(self, code: int, width: int, height: int, length: int) -> None:
         super().__init__(code, width, height, length)
         self.type = WagonType.LAST_HEAD
-        self.update_system(TailHeadManagementSystem(self.code, database))
+        self.update_system(TailHeadManagementSystem(self.code))
 
     def display(self):
         return "::"+super().display() + ">"

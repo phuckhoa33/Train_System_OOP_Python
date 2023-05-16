@@ -11,7 +11,7 @@ from Interface.DatabaseInterface import DatabaseConnection
 
 
 class WagonManagementSystemBaseClass(ABC):
-    def __init__(self, code: int, database: DatabaseConnection) -> None:
+    def __init__(self, code: int) -> None:
         self.code = code 
         self.database = database
         self.__user_manager = UserManagementSystem()

@@ -3,10 +3,10 @@ from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBase
 from Interface.TrainInterface import TrainInterface
 
 class Train(TrainInterface):
-    def __init__(self, train_name: str, code: int, database) -> None:
+    def __init__(self, train_name: str, code: int) -> None:
         self.train_name = train_name
         self.code = code 
-        self.__manager = TrainManagementSystem(code, database)
+        self.__manager = TrainManagementSystem(code)
         self.__get_list_of_workers()
 
     def __get_list_of_workers(self):

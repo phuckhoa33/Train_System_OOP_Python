@@ -2,8 +2,8 @@ from GasStation.Train.Wagon.WagonManagementSystem.AbstractClass.WagonManagementS
 from Interface.DatabaseInterface import DatabaseConnection
 
 class PassengerManagementSystem(WagonManagementSystemBaseClass):
-    def __init__(self, code: int, database: DatabaseConnection) -> None:
-        super().__init__(code, database)
+    def __init__(self, code: int) -> None:
+        super().__init__(code)
 
     @property
     def __type_chair(self):

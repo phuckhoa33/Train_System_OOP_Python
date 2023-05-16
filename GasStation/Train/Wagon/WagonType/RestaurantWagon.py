@@ -4,10 +4,10 @@ from GasStation.Train.Wagon.WagonManagementSystem.RestaurantWagonManagementSyste
 from Interface.DatabaseInterface import DatabaseConnection
 
 class Restaurant(WagonBaseClass):
-    def __init__(self, code: int, width: int, height: int, length: int, database: DatabaseConnection) -> None:
+    def __init__(self, code: int, width: int, height: int, length: int) -> None:
         super().__init__(code, width, height, length)
         self.type = WagonType.RESTAURANT
-        self.update_system(RestaurantManagementSystem(self.code, database))
+        self.update_system(RestaurantManagementSystem(self.code))
 
     def display(self):
         return "::|hThT|::"

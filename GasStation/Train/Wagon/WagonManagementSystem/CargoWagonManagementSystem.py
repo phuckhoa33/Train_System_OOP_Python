@@ -2,7 +2,7 @@ from GasStation.Train.Wagon.WagonManagementSystem.AbstractClass.WagonManagementS
 from Interface.DatabaseInterface import DatabaseConnection
 
 class CargoManagementSystem(WagonManagementSystemBaseClass):
-    def __init__(self, code: int, database: DatabaseConnection) -> None:
+    def __init__(self, code: int) -> None:
         super().__init__(code, database)
 
     

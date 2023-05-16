@@ -2,8 +2,8 @@ from GasStation.Train.Wagon.WagonManagementSystem.AbstractClass.WagonManagementS
 from Interface.DatabaseInterface import DatabaseConnection
 
 class HeadHeadManagementSystem(WagonManagementSystemBaseClass):
-    def __init__(self, code: int, database: DatabaseConnection) -> None:
-        super().__init__(code, database)
+    def __init__(self, code: int) -> None:
+        super().__init__(code)
 
     def create_new_chair_or_room_or_insert_goods(self, type: str):
         self.database.connect()

@@ -10,7 +10,7 @@ class ChairBaseClass(ChairInterface):
     def __init__(self) -> None:
         raise NotImplementedError("Cannot instantiate this class")
     
-    def initiate_information(self, __code: str, type: ChairType, wagon_id: str, state: str, database: DatabaseConnection):
+    def initiate_information(self, __code: str, type: ChairType, wagon_id: str, state: str):
         self.__code = __code 
         self.__wagon_id = wagon_id
         self.__owner = None
