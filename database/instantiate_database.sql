@@ -120,5 +120,3 @@ INSERT INTO chair(wagon_id, user_id, state, chair_type) VALUES (1, 1, "active", 
                                                 (3, 0, "unactive", "soft"),
                                                 (3, 0, "unactive", "soft"),
                                                 (2, 0, "unactive","room");	
-                                                
-SELECT * FROM wagon WHERE wagon_type = passenger;
