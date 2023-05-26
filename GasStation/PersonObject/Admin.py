@@ -3,15 +3,20 @@ from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBase
 from Enum.PersonEnum import PersonEnum
 from Interface.PersonInterface import AdminInterface
 from Interface.DatabaseInterface import DatabaseConnection
+from caching.GlobalStorage import global_storage
 
 class Admin(PersonBaseClass, AdminInterface):
-    def __init__(self, email: str, fullname: str, code: int, telephoneNumber: str, gender: GenderState, database: DatabaseConnection) -> None:
+    def __init__(self, email: str, fullname: str, code: int, telephoneNumber: str, gender: GenderState) -> None:
         super().__init__(email, fullname, code, telephoneNumber, gender)
         self.update_type(PersonEnum.ADMIN)
-        self.database = database
+        self.database: DatabaseConnection = global_storage.get('database')
 
-    def grant_rights(self):
-        return super().grant_rights()
+    def create_new_chair(self, wagon_id, chair_type: str):
+        self.database.connect()
+        query = f"INSERT INTO chair(wagon_id, user_id, state, chair_type) VALUES (%s, %s, %s, %s)"
+        val = (wagon_id, 0, 'waiting', chair_type)
+        self.database.query_have_not_return(query, val) 
+        self.database.disconnect()
     
     def create_new_train(self):
         try:

@@ -16,4 +16,4 @@ class GlobalStorage(GlobalStorageInterface):
     def get(self, attribute: str):
         return super().get(attribute)
 
-    
+global_storage = GlobalStorage()    

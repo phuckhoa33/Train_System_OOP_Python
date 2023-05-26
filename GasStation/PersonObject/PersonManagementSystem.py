@@ -1,17 +1,19 @@
 from Interface.PersonManagementSystemInterface import PersonManagementSystem
-from configuration.Database import MysqlDatabaseConnection
+from Interface.DatabaseInterface import DatabaseConnection
 from GasStation.PersonObject.User import User
+from caching.GlobalStorage import global_storage
 
 
 class UserManagementSystem(PersonManagementSystem):
     def __init__(self) -> None:
         super().__init__()
-        self.__database = None
-        self.__database.connect()
+        self.__database: DatabaseConnection = global_storage.get('database')
 
     def find(self, code: int):
+        self.__database.connect()
         query = f"SELECT * FROM user WHERE user_id = '{code}'"
         result = self.__database.query_have_return(query)
+        self.__database.disconnect()
         return result
     
     def mapping(self, code: int):

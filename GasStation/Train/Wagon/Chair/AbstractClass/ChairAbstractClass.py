@@ -3,6 +3,7 @@ from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBase
 from configuration.Database import MysqlDatabaseConnection
 from Interface.ChairInterface import ChairInterface
 from Interface.DatabaseInterface import DatabaseConnection
+from caching.GlobalStorage import global_storage
 
 
 
@@ -15,7 +16,7 @@ class ChairBaseClass(ChairInterface):
         self.__wagon_id = wagon_id
         self.__owner = None
         self.__state = state
-        self.__database = database
+        self.__database: DatabaseConnection = global_storage.get('database')
         self.update_type(type)
 
     def set_ownership(self, owner: PersonBaseClass) -> None:

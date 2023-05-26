@@ -1,31 +1,48 @@
 from abc import ABC, abstractmethod
 
+
+class PersonInterface(ABC):
+    @abstractmethod
+    def displayPersonInformation(self):
+        pass 
+
 class UserInterface(ABC):
     @abstractmethod
     def cancel_ticket(self, code: int):
         pass 
 
     @abstractmethod
-    def set_ticket(self):
+    def create_ticket(self):
+        pass 
+
+    @abstractmethod
+    def recharge(self):
         pass 
 
     @abstractmethod
     def payment(self):
         pass 
 
-class AdminInterface(ABC):
     @abstractmethod
-    def grant_rights(self):
+    def find(self):
+        pass 
+
+
+class PartAdministratorInterface(ABC):
+
+    @abstractmethod
+    def find(self):
         pass 
 
     @abstractmethod
-    def create_new_chair(self, wagon_id):
+    def create(self):
         pass
 
-    @abstractmethod
-    def create_new_wagon(self, train_id: int):
+    @abstractmethod 
+    def delete(self):
         pass 
 
-    @abstractmethod 
-    def create_new_train(self):
+    @abstractmethod
+    def update(self):
         pass 
+

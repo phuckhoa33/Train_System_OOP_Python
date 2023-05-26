@@ -1,66 +1,57 @@
 from abc import ABC, abstractmethod
-from configuration.Database import MysqlDatabaseConnection
 from GasStation.Train.Wagon.Chair.HardChair import HardChair
 from GasStation.Train.Wagon.Chair.SortChair import SoftChair
 from GasStation.Train.Wagon.Chair.Room import Room
-from GasStation.PersonObject.PersonManagementSystem import UserManagementSystem
 from Interface.ChairInterface import ChairInterface
-from Interface.PersonInterface import UserInterface
-from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
+from Interface.PersonInterface import UserInterface, AdminInterface, PersonInterface
 from Interface.DatabaseInterface import DatabaseConnection
+from GasStation.PersonObject.PersonManagementSystem import UserManagementSystem
+from caching.GlobalStorage import global_storage
+from Enum.PersonEnum import PersonEnum
 
 
 class WagonManagementSystemBaseClass(ABC):
     def __init__(self, code: int) -> None:
         self.code = code 
-        self.database = database
-        self.__user_manager = UserManagementSystem()
-        self.__data = self.__get_data_depend_on_wagon_type()
-        self.__chairs = self.__get_chairs()
+        self.database: DatabaseConnection = global_storage.get('database')
+        self.__person: PersonInterface = global_storage.get("person")
+    """
+        This part so that create properties with connect with database.
+        Note: This part is similiar with another property
+    """
 
-    def admin_catalog(self, person: PersonBaseClass):
-        choose: int = -1
+    @property
+    def __chairs(self) -> list:
+        D_chairs = {}
+        for data in self.__data:
+            chair = None 
+            chair_id = int(data['chair_id'])
+            wagon_id = int(data['wagon_id'])
+            if data['chair_type']=='hard':
+                chair = HardChair(chair_id, wagon_id, data['state'], self.database)
+    
+            elif data['chair_type']=='soft': 
+                chair = SoftChair(chair_id, wagon_id, data['state'], self.database)
+                
+            elif data['chair_type']=='room':
+                chair = Room(chair_id, wagon_id, data['state'], self.database)
+                
 
-        while choose != 0:
-            print("-------------------------------------------------------\n"\
-                "1. Find chair\n"\
-                "2. Update chair\n"\
-                "3. Create chair\n"\
-                "0. Exit\n"\
-                "---------------------------------------------------------\n")
-            choose = int(input("What your chosen: "))
+            if data['user_id']!=0:
+                user = self.__manager.mapping(int(data['user_id']))
+                chair.set_ownership(user)
+            
+            D_chairs[int(data['chair_id'])] = chair
 
-            match choose:
-                case 1: 
-                    a = int(input("What code: "))
-                    self.__find_information_of_chair_room_goods(a)
-                case 2: 
-                    state = input("What state do you want to change: ")
-                    converted_state = input("What state do you want to change into: ")
-                    self.__convert_state_of_all_chair(state, converted_state)
-                case 3: 
-                    self.create_new_chair_or_room_or_insert_goods()
-                case 0:
-                    break 
-    def user_catalog(self, person: PersonBaseClass):
-        choose: int = -1
+        return D_chairs
 
-        while choose != 0:
-            print("-------------------------------------------------------\n"\
-                "1. Find chair\n"\
-                "2. Buy chair\n"\
-                "0. Exit\n"\
-                "---------------------------------------------------------\n")
-            choose = int(input("What your chosen: "))
-
-            match choose:
-                case 1: 
-                    a = int(input("What code: "))
-                    self.__find_information_of_chair_room_goods(a)
-                case 2: 
-                    self.__buy_ticket(person)
-                case 0:
-                    return
+    @property
+    def __data(self) -> list:
+        query = f"SELECT * FROM chair WHERE wagon_id = '{self.code}'"
+        self.database.connect()
+        a = self.database.query_have_return(query)
+        self.database.disconnect()
+        return a
 
     def __get_all_available_chair(self):
         self.database.connect()
@@ -69,7 +60,7 @@ class WagonManagementSystemBaseClass(ABC):
         self.database.disconnect()
         return tickets
 
-    def __buy_ticket(self, user: UserInterface):
+    def __buy_ticket(self):
         tickets = self.__get_all_available_chair()
         tks = [ticket['chair_id'] for ticket in tickets]
 
@@ -91,7 +82,7 @@ class WagonManagementSystemBaseClass(ABC):
             vertify = input("Do you want to pay this payment? ")
 
             if vertify=="yes":
-                if user.payment():
+                if self.__user.payment():
                     print("Very happy to have served you. See you next time")
                 else:
                     print("Please check your information so that pay this bill")
@@ -100,49 +91,23 @@ class WagonManagementSystemBaseClass(ABC):
         else:
             print("See you again")
     
-    def __get_chairs(self) -> list:
-        D_chairs = {}
-        for data in self.__data:
-            chair = None 
-            chair_id = int(data['chair_id'])
-            wagon_id = int(data['wagon_id'])
-            if data['chair_type']=='hard':
-                chair = HardChair(chair_id, wagon_id, data['state'], self.database)
-    
-            elif data['chair_type']=='soft': 
-                chair = SoftChair(chair_id, wagon_id, data['state'], self.database)
-                
-            elif data['chair_type']=='room':
-                chair = Room(chair_id, wagon_id, data['state'], self.database)
-                
-
-            if data['user_id']!=0:
-                user = self.__user_manager.mapping(int(data['user_id']))
-                chair.set_ownership(user)
-            
-            D_chairs[int(data['chair_id'])] = chair
-
-        return D_chairs
-
-    def __get_data_depend_on_wagon_type(self) -> list:
-        query = f"SELECT * FROM chair WHERE wagon_id = '{self.code}'"
-        self.database.connect()
-        a = self.database.query_have_return(query)
-        self.database.disconnect()
-        return a
 
 
     def __find_information_of_chair_room_goods(self, code: int):
         try:
-            infor = self.__chairs[code].displayInformation()
+            code = int(input("What code: "))
+            chair: ChairInterface = self.__chairs[code]
+            infor = chair.displayInformation()
             print(infor)
         except KeyError:
             print("Your chosen don't have in this wagon")
     
     def __convert_state_of_all_chair(self, state: str, current_state: str):
+        state = input("What state do you want to change: ")
+        converted_state = input("What state do you want to change into: ")
         self.database.connect()
         query = f"UPDATE chair SET state = %s WHERE wagon_id = %s and state = %s"
-        val = (state, self.code, current_state)
+        val = (converted_state, self.code, state)
         self.database.query_have_not_return(query, val)
         self.database.disconnect()
 
