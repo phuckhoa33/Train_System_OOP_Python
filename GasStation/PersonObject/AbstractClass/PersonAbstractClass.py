@@ -1,9 +1,9 @@
-from abc import ABC, abstractmethod
 from Contact.PhoneNumber import PhoneNumber
 from Enum.GenderEnum import GenderState
 from Enum.PersonEnum import PersonEnum
+from Interface.PersonInterface import PersonInterface
 
-class PersonBaseClass(ABC):
+class PersonBaseClass(PersonInterface):
     def __init__(self, email: str, fullname: str, code: int, telephoneNumber: str, gender: GenderState) -> None:
         self.email = email
         self.fullname = fullname
@@ -15,6 +15,10 @@ class PersonBaseClass(ABC):
     def update_type(self, type: PersonEnum):
         self.type = type
 
-    @abstractmethod
     def displayPersonInformation(self):
-        pass
+        return  "--------------------------------------------------------------------------------\n"\
+                f"User Information\n" \
+                f"Fullname: {self.fullname}\nEmail: {self.email} \n" \
+                f"Telephone: {self.telephoneNumber.phone_number} \nUserCode: {self.code}\n" \
+                f"Gender: {self.gender} \nTrainCode: {self.code}\n"\
+                "--------------------------------------------------------------------------------\n"

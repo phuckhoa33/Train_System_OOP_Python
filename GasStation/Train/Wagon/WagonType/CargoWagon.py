@@ -1,7 +1,7 @@
 from GasStation.Train.Wagon.WagonType.AbstractClass.WagonAbstractClass import WagonBaseClass
 from Enum.WagonEnum import WagonType
 from GasStation.Train.Wagon.WagonManagementSystem.CargoWagonManagementSystem import CargoManagementSystem
-
+from Interface.DatabaseInterface import DatabaseConnection
 
 
 class Cargo(WagonBaseClass):

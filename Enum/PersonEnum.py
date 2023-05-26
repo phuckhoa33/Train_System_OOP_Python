@@ -5,3 +5,4 @@ class PersonEnum(Enum):
     ADMIN = "admin"
     DRIVER = "driver"
     Waiter = "waiter"
+    CO_DRIVER = "co_driver"

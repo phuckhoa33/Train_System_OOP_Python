@@ -8,21 +8,16 @@ class User(PersonBaseClass, UserInterface):
         super().__init__(email, fullname, code, telephoneNumber, gender)
         self.update_type(PersonEnum.USER)
 
+    def create_ticket(self):
+        return super().create_ticket()
+
     def cancel_ticket(self, code: int):
         pass 
 
-    def set_ticket(self):
-        pass 
-
-    def payment(self):
-        return True
-
-    def displayPersonInformation(self):
-        return  "--------------------------------------------------------------------------------\n"\
-                f"User Information\n" \
-                f"Fullname: {self.fullname}\nEmail: {self.email} \n" \
-                f"Telephone: {self.telephoneNumber.phone_number} \nUserCode: {self.code}\n" \
-                f"Gender: {self.gender} \nTrainCode: {self.code}\n"\
-                "--------------------------------------------------------------------------------\n"
+    def __payment(self):
+        self.payment()
+    
+    def recharge(self):
+        return super().recharge()
     
     
