@@ -17,8 +17,7 @@ CREATE TABLE user(
     phoneNumber VARCHAR(10),
     gender INT,
     address_id INT,
-    PRIMARY KEY(user_id),
-    FOREIGN KEY(address_id) REFERENCES address(address_id)
+    PRIMARY KEY(user_id)
 );
 
 
@@ -27,8 +26,7 @@ CREATE TABLE payment (
     payment_date DATE,
     user_id INT, 
     cost DOUBLE,
-    PRIMARY KEY(payment_id),
-    FOREIGN KEY(user_id) REFERENCES user(user_id)
+    PRIMARY KEY(payment_id)
 );
 CREATE TABLE staff (
 	staff_id INT NOT NULL AUTO_INCREMENT,
@@ -53,8 +51,7 @@ CREATE TABLE wagon(
     height DOUBLE,
     wagon_type VARCHAR(20),
     length DOUBLE,
-	PRIMARY KEY(wagon_id),
-    FOREIGN KEY(train_id) REFERENCES train(train_id)
+	PRIMARY KEY(wagon_id)
 );
 CREATE TABLE chair (
 	chair_id INT NOT NULL AUTO_INCREMENT,
@@ -62,19 +59,21 @@ CREATE TABLE chair (
     user_id INT,
     state VARCHAR(10),
     PRIMARY KEY(chair_id),
-    chair_type VARCHAR(10),
-    FOREIGN KEY(wagon_id) REFERENCES wagon(wagon_id)
+    chair_type VARCHAR(10)
 );
 
-
+CREATE TABLE wallet(
+    wallet_id INT NOT NULL AUTO_INCREMENT, 
+    user_id INT,
+    total INT,
+    PRIMARY KEY(wallet_id)
+);
 
 CREATE TABLE trainworker(
 	train_worker_id INT NOT NULL AUTO_INCREMENT, 
 	train_id INT,
     staff_id INT,
-    PRIMARY KEY(train_worker_id),
-    FOREIGN KEY(staff_id) REFERENCES staff(staff_id),
-    FOREIGN KEY(train_id) REFERENCES train(train_id)
+    PRIMARY KEY(train_worker_id)
 );
 
 INSERT INTO address(communce, distict, city, country) VALUES ("Vinh Loc A", "Binh Chanh", "Ho Chi Minh", "VietNam"),("Ba Diem", "Hoc Mon", "Ho Chi Minh", "VietNam");
