@@ -15,8 +15,6 @@ class Train(TrainInterface):
     def get_list_of_workers(self):
         self.__get_list_of_workers()
 
-    def display(self, user: PersonBaseClass) -> str:
-        self.__manager.catalog(user)
-
-    def display_all_information(self):
-        pass 
+    def display(self):
+        print(f"The train code is {self.code}\
+              Train name is {self.train_name}")

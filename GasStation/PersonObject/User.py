@@ -17,6 +17,9 @@ class User(PersonBaseClass, UserInterface):
     def __payment(self):
         self.payment()
     
+    def find(self, code: int):
+        return super().find(code)
+    
     def recharge(self):
         return super().recharge()
     

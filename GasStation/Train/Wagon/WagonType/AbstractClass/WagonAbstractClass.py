@@ -18,4 +18,7 @@ class WagonBaseClass(ABC):
 
     @abstractmethod
     def display(self):
-        pass 
+        print(f"The train code is {self.code}\
+              Width's train is {self.__width}\
+              Height's train is {self.__height}\
+              Length's train is {self.__length}")

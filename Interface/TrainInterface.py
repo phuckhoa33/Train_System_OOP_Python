@@ -7,6 +7,10 @@ class TrainInterface(ABC):
         pass
 
     @abstractmethod
+    def display_train_running(self):
+        pass
+
+    @abstractmethod
     def get_list_of_workers(self):
         pass
 

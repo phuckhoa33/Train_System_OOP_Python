@@ -1,7 +1,7 @@
 from GasStation.PersonObject.Administrator.Adminstrator import Administrator
 
 
-class TrainAdministrator(Administrator):
+class WagonAdministrator(Administrator):
 
     def __init__(self) -> None:
         super().__init__()

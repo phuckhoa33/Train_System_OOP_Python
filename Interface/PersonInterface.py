@@ -3,6 +3,14 @@ from abc import ABC, abstractmethod
 
 class PersonInterface(ABC):
     @abstractmethod
+    def watch_train(self, train_id: int):
+        pass 
+
+    @abstractmethod
+    def find(self, code: int, type: str):
+        pass 
+
+    @abstractmethod
     def displayPersonInformation(self):
         pass 
 
@@ -29,11 +37,6 @@ class UserInterface(ABC):
 
 
 class PartAdministratorInterface(ABC):
-
-    @abstractmethod
-    def find(self):
-        pass 
-
     @abstractmethod
     def create(self):
         pass

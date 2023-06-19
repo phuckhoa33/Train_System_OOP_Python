@@ -2,18 +2,18 @@ from Interface.GlobalStorageInterface import GlobalStorageInterface
 
 class GlobalStorage(GlobalStorageInterface):
     def __init__(self) -> None:
-        self.storage = {}
+        self.__storage = {}
 
     def add(self, attribute: object, name: str):
-        return super().add(attribute, name)
+        self.__storage[name] = attribute
     
-    def remove(self, attribute: object, name: str):
-        return super().remove(attribute, name)
+    def remove(self, name: str):
+        del self.__storage[name]
     
     def update(self, attribute: object, name: str):
-        return super().update(attribute, name)
+        self.__storage[name] = attribute
     
     def get(self, attribute: str):
-        return super().get(attribute)
+        return self.__storage[attribute]
 
 global_storage = GlobalStorage()    

@@ -9,6 +9,8 @@ from Enum.WagonEnum import WagonType
 from Interface.TrainInterface import TrainInterface
 from Interface.DatabaseInterface import DatabaseConnection
 from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
+from caching.GlobalStorage import global_storage
+from GasStation.PersonObject.AbstractClass.PersonAbstractClass import PersonBaseClass
 
 # Build-in module
 import keyboard
@@ -18,7 +20,8 @@ import sys
 class TrainManagementSystem():
     def __init__(self, code: int) -> None:
         self.__code = code 
-        self.database = database
+        self.database: DatabaseConnection = global_storage.get('database')
+        self.__person: PersonBaseClass = global_storage.get('person')
 
     @property
     def __data(self):
@@ -66,12 +69,6 @@ class TrainManagementSystem():
         result = self.database.query_have_return(query)
         self.database.disconnect()
 
-        if person.type==PersonEnum.ADMIN:
-            choose = input("Do you want to add new workers")
-            if choose=="yes" or train._driver==None \
-            or train._co_driver== None or train._waiter==None:
-                self.__add_workers_for_train(train)
-
     def __add_workers_for_train(self, train: TrainInterface):
         self.database.connect()
 
@@ -79,20 +76,7 @@ class TrainManagementSystem():
 
         self.database.disconnect()
 
-    def __create_wagon(self, wagon_type: str, width, height, length):
-        self.database.connect()
-        query = "INSERT INTO wagon(train_id, width, height, length, wagon_type) VALUES (%s, %s, %s, %s, %s)"
-        val = (self.__code, width, height, length, wagon_type)
-        self.database.query_have_not_return(query, val) 
-        self.database.disconnect()
-
-    def __find_wagon(self, code: int, person: PersonBaseClass):
-        try:
-            self.__wagons[code].display_catalog(person)
-        except KeyError:
-            print("Your chosen don't have wagon")
-
-    def __display_train_running(self):
+    def display_train_running(self):
         sequence = [[], [], [], [], []]
         for wagon in self.__wagons.values():
             if wagon.type==WagonType.FIRST_HEAD:
